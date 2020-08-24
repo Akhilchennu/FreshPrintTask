@@ -1,20 +1,25 @@
 const mongoose=require('../db/mongoose.js');
 const validator=require('validator');
 
-const orderSchema=new mongoose.Schema({
+const itemSchema=new mongoose.Schema({
     orderNumber:{
         type:String,
         required:true,
         trim:true
     },
-    orderDate:{
+    orderItem:{
         type:String,
-        required:true
+        required:true,
+        trim:true
     },
     orderDescription:{
      type:String,
      required:true,
      trim:true
+    },
+    orderNo:{
+        type:Number,
+        required:true
     },
     orderedUser:{
      type:mongoose.Schema.Types.ObjectId,
@@ -24,12 +29,12 @@ const orderSchema=new mongoose.Schema({
       timestamps:true
  })
 
- orderSchema.statics.findUserOrders = async (userId)=>{
-    const userData=await orderModel.find({orderedUser:new mongoose.Types.ObjectId(userId)});
+ itemSchema.statics.findUserItems = async (number)=>{
+    const userData=await itemModel.find({orderNumber:number});
     
     return userData;
 }
 
-const orderModel=mongoose.model('Order',orderSchema);
+const itemModel=mongoose.model('Item',itemSchema);
 
-module.exports=orderModel;
+module.exports=itemModel;
